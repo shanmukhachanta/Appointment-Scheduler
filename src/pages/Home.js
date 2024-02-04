@@ -1,14 +1,15 @@
 import { useEffect,useState} from "react";
 import AppointmentDetails from "../components/AppointmentDetails";
 import AppointmentForm from "../components/AppointmentForm";
+import axios from "axios";
 
 const Home = () => {
   const [appointments, setAppointments] = useState(null);
 
   useEffect(() => {
     const fetchAppointment = async () => {
-      const response = await fetch('https://appointment-scheduler.azurewebsites.net/api');
-      const json = await response.json();
+      const response = await axios.get('https://appointment-scheduler.azurewebsites.net/api');
+        const json = response.data;
 
       if (response.ok) {
         setAppointments(json);
