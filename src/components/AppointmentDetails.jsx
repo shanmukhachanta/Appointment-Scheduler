@@ -71,7 +71,7 @@ const handleUpdate = async () => {
   return (
     <div className="workout-details">
 
-      <Link to={`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`}>
+      <Link to={`/api/${appointment._id}`}>
           <h4>{appointment.title}</h4>
       </Link>
      
