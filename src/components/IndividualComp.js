@@ -1,8 +1,8 @@
+import axios from 'axios';
 const React = require('react');
 const { useEffect, useState } = React;
 const { useParams } = require('react-router-dom');
-const axios = require('axios');
-const format = require('date-fns/format');
+
 
 
 const IndividualComponents = () => {

@@ -23,10 +23,9 @@ const handleDelete = async () => {
 
     if (!response.ok) {
       const json = response.data;
-      console.error('Error deleting appointment:', json.error);
+      console.log('Error deleting appointment:', json.error);
     } else {
       onDelete(appointment._id);
-      console.log('Appointment deleted successfully');
     }
   } catch (error) {
     console.error('Error deleting appointment:', error);
@@ -51,7 +50,7 @@ const handleUpdate = async () => {
       const json = response.data;
       console.error('Error updating appointment:', json.error);
     } else {
-      console.log('Appointment updated successfully');
+
       onUpdateAppointment({
         _id: appointment._id,
         title: updatedTitle,
@@ -59,7 +58,7 @@ const handleUpdate = async () => {
         time: updatedTime,
       });
       setIsUpdating(false);
-      console.log(appointment);
+
     }
   } catch (error) {
     console.error('Error updating appointment:', error);
@@ -89,6 +88,7 @@ const handleUpdate = async () => {
         <form>
           <label>Title:</label>
           <input
+            data-testid="my-input1"
             type="text"
             value={updatedTitle}
             onChange={(e) => setUpdatedTitle(e.target.value)}
@@ -96,6 +96,7 @@ const handleUpdate = async () => {
   
           <label>Date:</label>
           <input
+             data-testid="my-input2"
             type="date"
             value={updatedDate}
             onChange={(e) => setUpdatedDate(e.target.value)}
@@ -103,6 +104,7 @@ const handleUpdate = async () => {
   
           <label>Time:</label>
           <input
+             data-testid="my-input3"
             type="time"
             value={updatedTime}
             onChange={(e) => setUpdatedTime(e.target.value)}
