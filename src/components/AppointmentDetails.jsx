@@ -12,28 +12,28 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   const [updatedDate, setUpdatedDate] = useState(appointment.date);
   const [updatedTime, setUpdatedTime] = useState(appointment.time);
 
-const handleDelete = async () => {
-  try {
-    setIsDeleting(true);
-    const response = await axios.delete(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-
-    if (!response.ok) {
-      const json = response.data;
-      console.log('Error deleting appointment:', json.error);
-    } else {
-      onDelete(appointment._id);
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true);
+      const response = await axios.delete(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 200) {
+        onDelete(appointment._id);
+      } else {
+        const json = response.data;
+        console.log('Error deleting appointment:', json.error);
+      }
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+    } finally {
+      setIsDeleting(false);
     }
-  } catch (error) {
-    console.error('Error deleting appointment:', error);
-  } finally {
-    setIsDeleting(false);
-  }
-};
+  };
+  
 
 const handleUpdate = async () => {
   try {
