@@ -7,7 +7,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchAppointment = async () => {
-      const response = await fetch('/api');
+      const response = await fetch('https://appointment-scheduler.azurewebsites.net/api');
       const json = await response.json();
 
       if (response.ok) {

@@ -15,11 +15,12 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
 const handleDelete = async () => {
   try {
     setIsDeleting(true);
-    const response = await axios.delete(`/api/${appointment._id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.delete(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 
     if (!response.ok) {
       const json = response.data;
@@ -36,15 +37,16 @@ const handleDelete = async () => {
 
 const handleUpdate = async () => {
   try {
-    const response = await axios.patch(`/api/${appointment._id}`, {
-      title: updatedTitle,
-      date: updatedDate,
-      time: updatedTime,
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.patch(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
+  title: updatedTitle,
+  date: updatedDate,
+  time: updatedTime,
+}, {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 
     if (!response.ok) {
       const json = response.data;
@@ -69,7 +71,7 @@ const handleUpdate = async () => {
   return (
     <div className="workout-details">
 
-      <Link to={`/api/${appointment._id}`}>
+      <Link to={`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`}>
           <h4>{appointment.title}</h4>
       </Link>
      

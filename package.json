@@ -1,5 +1,5 @@
 {
-    "proxy": "https://appointment-scheduler.azurewebsites.net/",
+
     "name": "frontend",
     "version": "0.1.0",
     "private": true,

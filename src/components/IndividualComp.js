@@ -14,7 +14,7 @@ const IndividualComponents = () => {
   useEffect(() => {
     const fetchAppointment = async () => {
       try {
-        const response = await axios.get(`/api/${id}`);
+        const response = await axios.get(`https://appointment-scheduler.azurewebsites.net/api/${id}`);
         setAppointment(response.data);
       } catch (error) {
         setError(error.message || 'An error occurred while fetching data.');

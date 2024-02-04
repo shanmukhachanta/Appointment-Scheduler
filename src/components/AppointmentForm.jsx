@@ -18,11 +18,11 @@ const AppointmentForm = ({appointments,setAppointments}) => {
       const appointment = { title, date, time };
     
       try {
-        const response = await axios.post('/api', appointment, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await axios.post('https://appointment-scheduler.azurewebsites.net/api', appointment, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     
         const json = response.data;
     
@@ -46,7 +46,7 @@ const AppointmentForm = ({appointments,setAppointments}) => {
     
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('/api');
+        const response = await axios.get('https://appointment-scheduler.azurewebsites.net/api');
         const json = response.data;
     
         if (response.status === 200) {
