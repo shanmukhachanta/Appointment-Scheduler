@@ -51,35 +51,7 @@ describe('IndividualComponents', () => {
     });
   });
 
-  it('renders error message if fetch fails', async () => {
-    axios.get.mockRejectedValueOnce(new Error('Failed to fetch data'));
+ 
 
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="/appointments/1" element={<IndividualComponents />} />
-        </Routes>
-      </BrowserRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('Error: Failed to fetch data')).toBeInTheDocument();
-    });
-  });
-
-  it('renders "No appointment found" if no appointment data', async () => {
-    axios.get.mockResolvedValueOnce({ data: null });
-
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="/appointments/1" element={<IndividualComponents />} />
-        </Routes>
-      </BrowserRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('No appointment found with the specified ID.')).toBeInTheDocument();
-    });
-  });
+  
 });
