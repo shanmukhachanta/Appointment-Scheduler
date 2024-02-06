@@ -54,9 +54,15 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
       return "Invalid date.";
     }
   
-
+    // Check if the date is in the past
+    const currentDate = new Date();
+    if (dateObject < currentDate) {
+      return "Please enter a future date.";
+    }
+  
     return null;
   };
+  
   
 
   const validateTime = (timeString) => {
