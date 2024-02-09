@@ -116,8 +116,8 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
           'Content-Type': 'application/json',
         },
       });
+      console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
       
-  
       if (response.status !== 200) {
         const json = response.data;
         console.error('Error updating appointment:', json.error);
