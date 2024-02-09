@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Link, Route,Routes } from 'react-router-dom';
 import IndividualComponents from './IndividualComp';
@@ -12,6 +12,14 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   const [updatedDate, setUpdatedDate] = useState(appointment.date);
   const [updatedTime, setUpdatedTime] = useState(appointment.time);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setUpdatedTitle(appointment.title);
+    setUpdatedDate(appointment.date);
+    setUpdatedTime(appointment.time);
+    console.log('New appointment:', appointment);
+  }, [appointment]);
+  
 
   const handleDelete = async () => {
     try {
@@ -88,6 +96,7 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   
 
   const handleUpdate = async () => {
+    console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
     const dateError = validateDate(updatedDate);
     const timeError = validateTime(updatedTime);
   
@@ -107,24 +116,38 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
           'Content-Type': 'application/json',
         },
       });
+      console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
+      onUpdateAppointment({
+        _id: appointment._id,
+        title: updatedTitle,
+        date: updatedDate,
+        time: updatedTime,
+      });
   
-      if (!response.ok) {
+      if (response.status !== 200) {
         const json = response.data;
         console.error('Error updating appointment:', json.error);
       } else {
+        console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
         onUpdateAppointment({
           _id: appointment._id,
           title: updatedTitle,
           date: updatedDate,
           time: updatedTime,
         });
+        
+        // Reset state after successful update
+        setUpdatedTitle(appointment.title);
+        setUpdatedDate(appointment.date);
+        setUpdatedTime(appointment.time);
+        setErrors({});
         setIsUpdating(false);
       }
     } catch (error) {
       console.error('Error updating appointment:', error);
     }
+};
 
-  };
   
 
  
