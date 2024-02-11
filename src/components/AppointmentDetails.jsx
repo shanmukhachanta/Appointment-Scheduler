@@ -2,7 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Link, Route,Routes } from 'react-router-dom';
 import IndividualComponents from './IndividualComp';
-
+import Deleting from './Deleting';
+import Loading from './Loading';
 
 const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   const formattedDate = new Date(appointment.date).toISOString().split('T')[0];
@@ -12,6 +13,7 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   const [updatedDate, setUpdatedDate] = useState(appointment.date);
   const [updatedTime, setUpdatedTime] = useState(appointment.time);
   const [errors, setErrors] = useState({});
+  const [updated,setUpdated] = useState(false);
 
   useEffect(() => {
     setUpdatedTitle(appointment.title);
@@ -96,6 +98,7 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
   
 
   const handleUpdate = async () => {
+    setUpdated(true)
     console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
     const dateError = validateDate(updatedDate);
     const timeError = validateTime(updatedTime);
@@ -145,62 +148,67 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
 
   
 
- 
 return (
-  <div className="workout-details">
-    <Link to={`/api/${appointment._id}`}>
-      <h4>{appointment.title}</h4>
-    </Link>
+  <>
+    {isDeleting && <Deleting />}
+    <div className="workout-details">
+      <Link to={`/api/${appointment._id}`}>
+        <h4>{appointment.title}</h4>
+      </Link>
 
-    <p><strong>Date: </strong>{formattedDate}</p>
-    <p><strong>Time: </strong>{appointment.time}</p>
+      <p><strong>Date: </strong>{formattedDate}</p>
+      <p><strong>Time: </strong>{appointment.time}</p>
 
-    <button onClick={handleDelete} disabled={isDeleting}>
-      {isDeleting ? 'Deleting...' : 'Delete'}
-    </button>
-    <button onClick={() => setIsUpdating(true)} disabled={isDeleting}>
-      Update
-    </button>
+      <button onClick={handleDelete} disabled={isDeleting}>
+        {isDeleting ? 'Deleting...' : 'Delete'}
+      </button>
 
-    {isUpdating && (
-      <form>
-        <label>Title:</label>
-        <input
-          data-testid="my-input1"
-          type="text"
-          value={updatedTitle}
-          onChange={(e) => setUpdatedTitle(e.target.value)}
-        />
+      <button onClick={() => setIsUpdating(true)} disabled={isDeleting}>
+        Update
+      </button>
+      {updated && <Loading />}
+      {isUpdating && (
+        <form>
+          <label>Title:</label>
+          <input
+            data-testid="my-input1"
+            type="text"
+            value={updatedTitle}
+            onChange={(e) => setUpdatedTitle(e.target.value)}
+          />
 
-        <label>Date:</label>
-        <input
-          data-testid="my-input2"
-          type="date"
-          value={updatedDate}
-          onChange={(e) => setUpdatedDate(e.target.value)}
-          required
-        />
-        {errors.updatedDate && (
-          <div className="invalid-feedback">{errors.updatedDate}</div>
-        )}
+          <label>Date:</label>
+          <input
+            data-testid="my-input2"
+            type="date"
+            value={updatedDate}
+            onChange={(e) => setUpdatedDate(e.target.value)}
+            required
+          />
+          {errors.updatedDate && (
+            <div className="invalid-feedback">{errors.updatedDate}</div>
+          )}
 
-        <label>Time:</label>
-        <input
-          data-testid="my-input3"
-          type="time"
-          value={updatedTime}
-          onChange={(e) => setUpdatedTime(e.target.value)}
-          required
-        />
-        {errors.updatedTime && (
-          <div className="invalid-feedback">{errors.updatedTime}</div>
-        )}
+          <label>Time:</label>
+          <input
+            data-testid="my-input3"
+            type="time"
+            value={updatedTime}
+            onChange={(e) => setUpdatedTime(e.target.value)}
+            required
+          />
+          {errors.updatedTime && (
+            <div className="invalid-feedback">{errors.updatedTime}</div>
+          )}
 
-        <button onClick={handleUpdate}>Save</button>
-      </form>
-    )}
-  </div>
+          <button onClick={handleUpdate}>Save</button>
+        </form>
+      )}
+
+    </div>
+  </>
 );
+
 };
 
 export default AppointmentDetails;

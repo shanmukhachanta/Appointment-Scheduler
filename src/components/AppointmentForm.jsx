@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Loading from './Loading';
 
 const AppointmentForm = ({ appointments, setAppointments }) => {
   const [title, setTitle] = useState('');
@@ -94,70 +95,76 @@ const AppointmentForm = ({ appointments, setAppointments }) => {
   };
 
   return (
-    <form className="create needs-validation" onSubmit={handleSubmit} noValidate>
-  <h3>Add a New Appointment</h3>
-
-  <div className="mb-3">
-    <label htmlFor="title" className="form-label">
-      Appointment Title:
-    </label>
-    <input
-      type="text"
-      className={`form-control ${errors.title ? 'is-invalid' : ''}`}
-      id="title"
-      onChange={(e) => setTitle(e.target.value)}
-      value={title}
-      placeholder="Enter appointment title"
-      required
-    />
-    {errors.title && <div className="invalid-feedback text-danger">{errors.title}</div>}
-  </div>
-
-  <div className="mb-3">
-    <label htmlFor="date" className="form-label">
-      Date:
-    </label>
-    <input
-      type="date"
-      className={`form-control ${errors.date ? 'is-invalid' : ''}`}
-      id="date"
-      onChange={(e) => setDate(e.target.value)}
-      value={date}
-      placeholder="Select date"
-      required
-    />
-   {errors.date && (
-      <div className={`invalid-feedback ${errors.date ? 'text-danger' : ''}`}>
-        {errors.date}
-        {errors.date === 'Please enter a valid date.'}
-      </div>
-    )}
-  </div>
-
-  <div className="mb-3">
-    <label htmlFor="time" className="form-label">
-      Time:
-    </label>
-    <input
-      type="time"
-      className={`form-control ${errors.time ? 'is-invalid' : ''}`}
-      id="time"
-      onChange={(e) => setTime(e.target.value)}
-      value={time}
-      placeholder="Select time"
-      required
-    />
-    {errors.time && <div className="invalid-feedback text-danger">{errors.time}</div>}
-  </div>
-
-  <button type="submit" className="btn btn-primary" disabled={loading}>
-        {loading ? 'Adding Appointment...' : 'Add Appointment'} 
-    </button>
-  {errors.server && <div className="error">{errors.server}</div>}
-</form>
-
-
+    <>
+      {loading ? <Loading /> : (
+        <form className="create needs-validation" onSubmit={handleSubmit} noValidate>
+          <h3>Add a New Appointment</h3>
+  
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">
+              Appointment Title:
+            </label>
+            <input
+              type="text"
+              className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+              id="title"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              placeholder="Enter appointment title"
+              required
+            />
+            {errors.title && <div className="invalid-feedback text-danger">{errors.title}</div>}
+          </div>
+  
+          <div className="mb-3">
+            <label htmlFor="date" className="form-label">
+              Date:
+            </label>
+            <input
+              type="date"
+              className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+              id="date"
+              onChange={(e) => setDate(e.target.value)}
+              value={date}
+              placeholder="Select date"
+              required
+            />
+            {errors.date && (
+              <div className={`invalid-feedback ${errors.date ? 'text-danger' : ''}`}>
+                {errors.date}
+                {errors.date === 'Please enter a valid date.'}
+              </div>
+            )}
+          </div>
+  
+          <div className="mb-3">
+            <label htmlFor="time" className="form-label">
+              Time:
+            </label>
+            <input
+              type="time"
+              className={`form-control ${errors.time ? 'is-invalid' : ''}`}
+              id="time"
+              onChange={(e) => setTime(e.target.value)}
+              value={time}
+              placeholder="Select time"
+              required
+            />
+            {errors.time && <div className="invalid-feedback text-danger">{errors.time}</div>}
+          </div>
+  
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? 'Adding Appointment...' : 'Add Appointment'}
+          </button>
+  
+          {errors.server && <div className="error">{errors.server}</div>}
+        </form>
+      )}
+    </>
   );
+  
 };
 
 export default AppointmentForm;
+
+
