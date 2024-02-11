@@ -6,6 +6,7 @@ const AppointmentForm = ({ appointments, setAppointments }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,6 +15,8 @@ const AppointmentForm = ({ appointments, setAppointments }) => {
       const appointment = { title, date, time };
 
       try {
+        setLoading(true); 
+
         const response = await axios.post(
           'https://appointment-scheduler.azurewebsites.net/api',
           appointment,
@@ -39,6 +42,8 @@ const AppointmentForm = ({ appointments, setAppointments }) => {
         }
       } catch (error) {
         console.error('Error adding appointment:', error);
+      } finally {
+        setLoading(false); 
       }
     }
   };
@@ -145,9 +150,9 @@ const AppointmentForm = ({ appointments, setAppointments }) => {
     {errors.time && <div className="invalid-feedback text-danger">{errors.time}</div>}
   </div>
 
-  <button type="submit" className="btn btn-primary">
-    Add Appointment
-  </button>
+  <button type="submit" className="btn btn-primary" disabled={loading}>
+        {loading ? 'Adding Appointment...' : 'Add Appointment'} 
+    </button>
   {errors.server && <div className="error">{errors.server}</div>}
 </form>
 

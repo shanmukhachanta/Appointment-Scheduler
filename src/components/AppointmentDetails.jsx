@@ -107,39 +107,40 @@ const AppointmentDetails = ({ appointment, onDelete,onUpdateAppointment }) => {
     }
   
     try {
-      const response = await axios.patch(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
-        title: updatedTitle,
-        date: updatedDate,
-        time: updatedTime,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
-      
-      if (response.status !== 200) {
-        const json = response.data;
-        console.error('Error updating appointment:', json.error);
-      } else {
-        console.log('Updated date:', updatedDate, 'Updated time:', updatedTime);
-        onUpdateAppointment({
-          _id: appointment._id,
-          title: updatedTitle,
-          date: updatedDate,
-          time: updatedTime,
-        });
-        
-        // Reset state after successful update
-        setUpdatedTitle(appointment.title);
-        setUpdatedDate(appointment.date);
-        setUpdatedTime(appointment.time);
-        setErrors({});
-        setIsUpdating(false);
-      }
-    } catch (error) {
-      console.error('Error updating appointment:', error);
-    }
+  const response = await axios.patch(`https://appointment-scheduler.azurewebsites.net/api/${appointment._id}`, {
+    title: updatedTitle,
+    date: updatedDate,
+    time: updatedTime,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  console.log('Response status:', response.status);
+
+  if (response.status === 200) {
+    console.log('Appointment updated successfully');
+    onUpdateAppointment({
+      _id: appointment._id,
+      title: updatedTitle,
+      date: updatedDate,
+      time: updatedTime,
+    });
+
+    // Reset state after successful update
+    setUpdatedTitle(appointment.title);
+    setUpdatedDate(appointment.date);
+    setUpdatedTime(appointment.time);
+    setErrors({});
+    setIsUpdating(false);
+  } else {
+    const json = response.data;
+    console.error('Error updating appointment:', json.error);
+  }
+} catch (error) {
+  console.error('Error updating appointment:', error);
+}
 };
 
   
