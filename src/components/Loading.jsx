@@ -6,7 +6,7 @@ const Loading = () => {
     <div className="loading-overlay">
       <div className="loading-message">
         <h2>Loading...</h2>
-        
+        <div className="loader"></div>
       </div>
     </div>
   );
